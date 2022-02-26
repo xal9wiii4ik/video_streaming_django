@@ -10,13 +10,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', default=True)
+DEBUG = os.environ.get('DEBUG', default=True)  # type: ignore
 
-ALLOWED_HOSTS: tp.List[str] = os.environ.get('ALLOWED_HOSTS', default='').split(',')
+ALLOWED_HOSTS: tp.List[str] = os.environ.get('ALLOWED_HOSTS', default='').split(',')  # type: ignore
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,12 +59,12 @@ WSGI_APPLICATION = 'base.wsgi.application'
 
 
 # Database
-SQL_ENGINE = os.environ.get("SQL_ENGINE", default="django.db.backends.sqlite3")
-SQL_DATABASE = os.environ.get("RDS_DB_NAME", default=os.path.join(BASE_DIR, "db.sqlite3"))
-SQL_USER = os.environ.get("RDS_USERNAME", default="user")
-SQL_PASSWORD = os.environ.get("RDS_PASSWORD", default="password")
-SQL_HOST = os.environ.get("RDS_HOSTNAME", default="localhost")
-SQL_PORT = os.environ.get("RDS_PORT", default="5432")
+SQL_ENGINE = os.environ.get("SQL_ENGINE", default="django.db.backends.sqlite3")  # type: ignore
+SQL_DATABASE = os.environ.get("RDS_DB_NAME", default=os.path.join(BASE_DIR, "db.sqlite3"))  # type: ignore
+SQL_USER = os.environ.get("RDS_USERNAME", default="user")  # type: ignore
+SQL_PASSWORD = os.environ.get("RDS_PASSWORD", default="password")  # type: ignore
+SQL_HOST = os.environ.get("RDS_HOSTNAME", default="localhost")  # type: ignore
+SQL_PORT = os.environ.get("RDS_PORT", default="5432")  # type: ignore
 
 DATABASES = {
     "default": {
@@ -80,8 +79,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -99,12 +96,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = os.environ.get('TIME_ZONE', default='Europe/Moscow')
-
+TIME_ZONE = os.environ.get('TIME_ZONE', default='Europe/Moscow')  # type: ignore
 
 USE_I18N = True
 

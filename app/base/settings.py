@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+
+    'api.video',
 ]
 
 MIDDLEWARE = [
@@ -94,6 +96,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Aws settings
+BUCKET_REGION = os.environ.get('BUCKET_REGION')
+VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET')
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'

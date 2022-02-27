@@ -11,6 +11,7 @@ COPY ./app .
 COPY .github .
 COPY .flake8 .
 COPY .pre-commit-config.yaml .
+COPY mypy.ini .
 
 RUN apt-get install -y git
 

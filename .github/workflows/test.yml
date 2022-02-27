@@ -13,23 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: check
-        env:
-          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          BUCKET_REGION: ${{ secrets.BUCKET_REGION }}
-          DEBUG: ${{ secrets.DEBUG }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          RDS_DB_NAME: ${{ secrets.RDS_DB_NAME }}
-          RDS_HOSTNAME: ${{ secrets.RDS_HOSTNAME }}
-          RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
-          RDS_PORT: ${{ secrets.RDS_PORT }}
-          RDS_USERNAME: ${{ secrets.RDS_USERNAME }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          SQL_ENGINE: ${{ secrets.SQL_ENGINE }}
-          TIME_ZONE: ${{ secrets.TIME_ZONE }}
-          VIDEOS_BUCKET: ${{ secrets.VIDEOS_BUCKET }}
+      - name: create .env file
         run: |
           echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
           echo BUCKET_REGION=${{ secrets.BUCKET_REGION }} >> .env

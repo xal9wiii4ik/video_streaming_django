@@ -1,31 +1,25 @@
-import boto3
 import typing as tp
+import fleep
 
-from datetime import datetime
-
-from base import settings
+from rest_framework.exceptions import ValidationError
 
 
-def upload_video_to_aws(file_bytes: bytes, file_content_type: tp.List[str]) -> str:
+def validate_file(data: tp.Dict[str, tp.Any]) -> tp.Tuple[bytes, tp.List[str]]:
     """
-    Upload video to aws
-    Args:
-        file_bytes: file bytes
-        file_content_type: file content type
-    Return:
-        current bucket path
+    Validate file
     """
 
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(settings.VIDEOS_BUCKET)
+    if data.get('file') is None:
+        raise ValidationError({'file': 'field file in create method is required'})
 
-    datetime_now = datetime.now().strftime('%Y-%m-%d:%H-%M-%S.%f')
-    # TODO add username
-    file_path = f'username/{datetime_now}.{file_content_type[0].split("/")[-1]}'
+    file = data.pop('file')
 
-    file = bucket.put_object(Key=file_path,
-                             Body=file_bytes,
-                             ContentType=file_content_type[0])
+    # get file and file info
+    file_bytes = file.read()
+    file_info = fleep.get(file_bytes)
 
-    bucket_path = f'https://s3-{settings.BUCKET_REGION}.amazonaws.com/{settings.VIDEOS_BUCKET}/{file.key}'
-    return bucket_path
+    # validate file
+    if not any(file_info.mime) or file_info.mime[0].split('/')[0] != 'video':
+        raise ValidationError('File must be of the video type')
+
+    return file_bytes, file_info.mime

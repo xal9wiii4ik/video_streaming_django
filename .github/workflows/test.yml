@@ -31,21 +31,21 @@ jobs:
           TIME_ZONE: ${{ secrets.TIME_ZONE }}
           VIDEOS_BUCKET: ${{ secrets.VIDEOS_BUCKET }}
         run: |
-          echo ${{ secrets.ALLOWED_HOSTS }} >> .env
-          echo ${{ secrets.BUCKET_REGION }} >> .env
-          echo ${{ secrets.DEBUG }} >> .env
-          echo ${{ secrets.POSTGRES_DB }} >> .env
-          echo ${{ secrets.POSTGRES_PASSWORD }} >> .env
-          echo ${{ secrets.POSTGRES_USER }} >> .env
-          echo ${{ secrets.RDS_DB_NAME }} >> .env
-          echo ${{ secrets.RDS_HOSTNAME }} >> .env
-          echo ${{ secrets.RDS_PASSWORD }} >> .env
-          echo ${{ secrets.RDS_PORT }} >> .env
-          echo ${{ secrets.RDS_USERNAME }} >> .env
-          echo ${{ secrets.SECRET_KEY }} >> .env
-          echo ${{ secrets.SQL_ENGINE }} >> .env
-          echo ${{ secrets.TIME_ZONE }} >> .env
-          echo ${{ secrets.VIDEOS_BUCKET }} >> .env
+          echo "${{ secrets.ALLOWED_HOSTS }}" >> .env
+          echo "${{ secrets.BUCKET_REGION }}" >> .env
+          echo "${{ secrets.DEBUG }}" >> .env
+          echo "${{ secrets.POSTGRES_DB }}" >> .env
+          echo "${{ secrets.POSTGRES_PASSWORD }}" >> .env
+          echo "${{ secrets.POSTGRES_USER }}" >> .env
+          echo "${{ secrets.RDS_DB_NAME }}" >> .env
+          echo "${{ secrets.RDS_HOSTNAME }}" >> .env
+          echo "${{ secrets.RDS_PASSWORD }}" >> .env
+          echo "${{ secrets.RDS_PORT }}" >> .env
+          echo "${{ secrets.RDS_USERNAME }}" >> .env
+          echo "${{ secrets.SECRET_KEY }}" >> .env
+          echo "${{ secrets.SQL_ENGINE }}" >> .env
+          echo "${{ secrets.TIME_ZONE }}" >> .env
+          echo "${{ secrets.VIDEOS_BUCKET }}" >> .env
       - name: Build docker
         run: docker-compose up -d --build
       - name: Test

@@ -9,6 +9,8 @@ RUN apt-get install --no-install-recommends -y curl build-essential
 
 COPY ./app .
 
+RUN apt-get install -y git
+
 RUN pip3 install --upgrade pip
 
 RUN pip3 install -r ./requirements.txt

@@ -7,11 +7,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update
 RUN apt-get install --no-install-recommends -y curl build-essential
 
-COPY ./app .
-COPY .github .
-COPY .flake8 .
-COPY .pre-commit-config.yaml .
-COPY mypy.ini .
+COPY . .
 
 RUN apt-get install -y git
 

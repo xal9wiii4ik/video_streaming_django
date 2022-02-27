@@ -14,7 +14,24 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: check
-        run: echo ${{ secrets }} >> .env
+        run: |
+          ${{ secrets }}
+          echo ${{ secrets.ALLOWED_HOSTS }} > app/.env
+          echo ${{ secrets.POSTGRES_USER }} >> app/.env
+          echo ${{ secrets.BUCKET_REGION }} >> app/.env
+          echo ${{ secrets.DEBUG }} >> app/.env
+          echo ${{ secrets.POSTGRES_DB }} >> app/.env
+          echo ${{ secrets.POSTGRES_PASSWORD }} > app/.env
+          echo ${{ secrets.POSTGRES_USER }} > app/.env
+          echo ${{ secrets.RDS_DB_NAME }} > app/.env
+          echo ${{ secrets.RDS_HOSTNAME }} > app/.env
+          echo ${{ secrets.RDS_PASSWORD }} > app/.env
+          echo ${{ secrets.RDS_PORT }} > app/.env
+          echo ${{ secrets.RDS_USERNAME }} > app/.env
+          echo ${{ secrets.SECRET_KEY }} > app/.env
+          echo ${{ secrets.SQL_ENGINE }} > app/.env
+          echo ${{ secrets.TIME_ZONE }} > app/.env
+          echo ${{ secrets.VIDEOS_BUCKET }} > app/.env
       - name: Build docker
         run: docker-compose up -d --build
       - name: Test

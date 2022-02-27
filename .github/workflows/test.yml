@@ -14,24 +14,38 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: check
+        env:
+          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          BUCKET_REGION: ${{ secrets.BUCKET_REGION }}
+          DEBUG: ${{ secrets.DEBUG }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          RDS_DB_NAME: ${{ secrets.RDS_DB_NAME }}
+          RDS_HOSTNAME: ${{ secrets.RDS_HOSTNAME }}
+          RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
+          RDS_PORT: ${{ secrets.RDS_PORT }}
+          RDS_USERNAME: ${{ secrets.RDS_USERNAME }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SQL_ENGINE: ${{ secrets.SQL_ENGINE }}
+          TIME_ZONE: ${{ secrets.TIME_ZONE }}
+          VIDEOS_BUCKET: ${{ secrets.VIDEOS_BUCKET }}
         run: |
-          ${{ secrets }}
-          echo ${{ secrets.ALLOWED_HOSTS }} > app/.env
-          echo ${{ secrets.POSTGRES_USER }} >> app/.env
-          echo ${{ secrets.BUCKET_REGION }} >> app/.env
-          echo ${{ secrets.DEBUG }} >> app/.env
-          echo ${{ secrets.POSTGRES_DB }} >> app/.env
-          echo ${{ secrets.POSTGRES_PASSWORD }} > app/.env
-          echo ${{ secrets.POSTGRES_USER }} > app/.env
-          echo ${{ secrets.RDS_DB_NAME }} > app/.env
-          echo ${{ secrets.RDS_HOSTNAME }} > app/.env
-          echo ${{ secrets.RDS_PASSWORD }} > app/.env
-          echo ${{ secrets.RDS_PORT }} > app/.env
-          echo ${{ secrets.RDS_USERNAME }} > app/.env
-          echo ${{ secrets.SECRET_KEY }} > app/.env
-          echo ${{ secrets.SQL_ENGINE }} > app/.env
-          echo ${{ secrets.TIME_ZONE }} > app/.env
-          echo ${{ secrets.VIDEOS_BUCKET }} > app/.env
+          echo ${{ secrets.ALLOWED_HOSTS }} >> .env
+          echo ${{ secrets.BUCKET_REGION }} >> .env
+          echo ${{ secrets.DEBUG }} >> .env
+          echo ${{ secrets.POSTGRES_DB }} >> .env
+          echo ${{ secrets.POSTGRES_PASSWORD }} >> .env
+          echo ${{ secrets.POSTGRES_USER }} >> .env
+          echo ${{ secrets.RDS_DB_NAME }} >> .env
+          echo ${{ secrets.RDS_HOSTNAME }} >> .env
+          echo ${{ secrets.RDS_PASSWORD }} >> .env
+          echo ${{ secrets.RDS_PORT }} >> .env
+          echo ${{ secrets.RDS_USERNAME }} >> .env
+          echo ${{ secrets.SECRET_KEY }} >> .env
+          echo ${{ secrets.SQL_ENGINE }} >> .env
+          echo ${{ secrets.TIME_ZONE }} >> .env
+          echo ${{ secrets.VIDEOS_BUCKET }} >> .env
       - name: Build docker
         run: docker-compose up -d --build
       - name: Test

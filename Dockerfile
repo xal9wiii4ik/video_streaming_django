@@ -13,6 +13,6 @@ RUN apt-get install -y git
 
 RUN pip3 install --upgrade pip
 
-RUN pip3 install -r ./requirements.txt
+RUN pip3 install -r ./app/requirements.txt
 
-RUN chmod u+x ./entrypoint.sh
+RUN chmod u+x ./app/entrypoint.sh

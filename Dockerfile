@@ -8,11 +8,12 @@ RUN apt-get update
 RUN apt-get install --no-install-recommends -y curl build-essential
 
 COPY ./app .
+COPY .github .
 
 RUN apt-get install -y git
 
 RUN pip3 install --upgrade pip
 
 RUN pip3 install -r ./requirements.txt
-RUN pre-commit install
+
 RUN chmod u+x ./entrypoint.sh

@@ -31,21 +31,21 @@ jobs:
           TIME_ZONE: ${{ secrets.TIME_ZONE }}
           VIDEOS_BUCKET: ${{ secrets.VIDEOS_BUCKET }}
         run: |
-          echo "${{ secrets.ALLOWED_HOSTS }}" >> .env
-          echo "${{ secrets.BUCKET_REGION }}" >> .env
-          echo "${{ secrets.DEBUG }}" >> .env
-          echo "${{ secrets.POSTGRES_DB }}" >> .env
-          echo "${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "${{ secrets.POSTGRES_USER }}" >> .env
-          echo "${{ secrets.RDS_DB_NAME }}" >> .env
-          echo "${{ secrets.RDS_HOSTNAME }}" >> .env
-          echo "${{ secrets.RDS_PASSWORD }}" >> .env
-          echo "${{ secrets.RDS_PORT }}" >> .env
-          echo "${{ secrets.RDS_USERNAME }}" >> .env
-          echo "${{ secrets.SECRET_KEY }}" >> .env
-          echo "${{ secrets.SQL_ENGINE }}" >> .env
-          echo "${{ secrets.TIME_ZONE }}" >> .env
-          echo "${{ secrets.VIDEOS_BUCKET }}" >> .env
+          echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+          echo BUCKET_REGION=${{ secrets.BUCKET_REGION }} >> .env
+          echo DEBUG=${{ secrets.DEBUG }} >> .env
+          echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
+          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+          echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+          echo RDS_DB_NAME=${{ secrets.RDS_DB_NAME }} >> .env
+          echo RDS_HOSTNAME=${{ secrets.RDS_HOSTNAME }} >> .env
+          echo RDS_PASSWORD=${{ secrets.RDS_PASSWORD }} >> .env
+          echo RDS_PORT=${{ secrets.RDS_PORT }} >> .env
+          echo RDS_USERNAME=${{ secrets.RDS_USERNAME }} >> .env
+          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+          echo SQL_ENGINE=${{ secrets.SQL_ENGINE }} >> .env
+          echo TIME_ZONE=${{ secrets.TIME_ZONE }} >> .env
+          echo VIDEOS_BUCKET=${{ secrets.VIDEOS_BUCKET }} >> .env
       - name: Build docker
         run: docker-compose up -d --build
       - name: Test

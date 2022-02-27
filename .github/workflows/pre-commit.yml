@@ -14,7 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: check
-        run: echo ${{ secrets }}
+        env:
+          CHECK: ${{ secrets }}
+        run: echo CHECK
       - name: Build docker
         run: docker-compose up -d
       - name: PreCommit Check

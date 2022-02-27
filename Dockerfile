@@ -9,6 +9,8 @@ RUN apt-get install --no-install-recommends -y curl build-essential
 
 COPY ./app .
 COPY .github .
+COPY .flake8 .
+COPY .pre-commit-config.yaml .
 
 RUN apt-get install -y git
 

@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: check
+        run: echo ${{ secrets }} >> .env
       - name: Build docker
         run: docker-compose up -d --build
       - name: Test

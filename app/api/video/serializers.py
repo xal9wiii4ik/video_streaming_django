@@ -9,7 +9,6 @@ class VideoModelSerializer(serializers.ModelSerializer):
     """
 
     file = serializers.FileField(required=False, write_only=True)
-    check = serializers.CharField(required=False, write_only=True)
 
     class Meta:
         model = Video

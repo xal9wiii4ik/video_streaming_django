@@ -7,8 +7,10 @@ from rest_framework.test import APITestCase
 from api.video.models import Video
 
 
-class SetupAPITestCase(APITestCase):
-    """ Test Case for Task CRUD """
+class VideoAPITestCase(APITestCase):
+    """
+    Test Case for Video CRUD
+    """
 
     def setUp(self) -> None:
         self.video_1 = Video.objects.create(

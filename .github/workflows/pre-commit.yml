@@ -1,4 +1,4 @@
-name: Test
+name: PreCommit
 
 on:
   push:
@@ -31,8 +31,6 @@ jobs:
           echo TIME_ZONE=${{ secrets.TIME_ZONE }} >> .env
           echo VIDEOS_BUCKET=${{ secrets.VIDEOS_BUCKET }} >> .env
       - name: Build docker
-        run: docker-compose -f docker-compose-dev.yml up -d --build
-      - name: Test
-        env:
-          COMPOSE_INTERACTIVE_NO_CLI: 1
-        run: docker-compose -f docker-compose-dev.yml exec -T web python app/manage.py test app/
+        run: docker-compose -f docker-compose-dev.yml up -d
+      - name: PreCommit Check
+        run: docker-compose -f docker-compose-dev.yml exec -T web pre-commit run --show-diff-on-failure --color=always --all-files

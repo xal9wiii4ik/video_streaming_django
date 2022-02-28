@@ -2,6 +2,3 @@ djangorestframework==3.13.1
 psycopg2-binary==2.9.2
 boto3==1.21.8
 fleep
-pre-commit
-mypy
-flake8

@@ -14,6 +14,8 @@ DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS: tp.List[str] = os.environ.get('ALLOWED_HOSTS').split(',')  # type: ignore
 
+# CORS settings
+CORS_ALLOWED_ORIGINS: tp.List[str] = os.environ.get('CORS_ALLOWED_ORIGINS').split(',')  # type: ignore
 
 # Application definition
 INSTALLED_APPS = [
@@ -24,12 +26,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
+
     'rest_framework',
 
     'api.video',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

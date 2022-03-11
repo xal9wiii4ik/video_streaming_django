@@ -7,15 +7,15 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='some_secret_key')  # type: ignore
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = bool(os.environ.get('DEBUG', default=1))  # type: ignore
 
-ALLOWED_HOSTS: tp.List[str] = os.environ.get('ALLOWED_HOSTS').split(',')  # type: ignore
+ALLOWED_HOSTS: tp.List[str] = os.environ.get('ALLOWED_HOSTS', default='').split(',')  # type: ignore
 
 # CORS settings
-CORS_ALLOWED_ORIGINS: tp.List[str] = os.environ.get('CORS_ALLOWED_ORIGINS').split(',')  # type: ignore
+CORS_ALLOWED_ORIGINS: tp.List[str] = os.environ.get('CORS_ALLOWED_ORIGINS', default='').split(',')  # type: ignore
 
 # Application definition
 INSTALLED_APPS = [
@@ -104,8 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Aws settings
-BUCKET_REGION = os.environ.get('BUCKET_REGION')
-VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET')
+BUCKET_REGION = os.environ.get('BUCKET_REGION', default='test_region')  # type: ignore
+VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET', default='test_bucket')  # type: ignore
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'

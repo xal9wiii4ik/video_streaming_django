@@ -38,11 +38,11 @@ class VideoModelViewSet(ModelViewSet):
         serializer.save()
 
     def destroy(self, request: Request, *args: tp.Any, **kwargs: tp.Any) -> Response:
-        video = Video.objects.filter(pk=kwargs.get('pk'))
-        if not video:
+        try:
+            video = Video.objects.get(pk=kwargs.get('pk'))
+        except Video.DoesNotExist:
             return Response(data={"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
-
-        video = video[0]
-        video.delete_time = timezone.now()
-        video.save()
-        return Response(data={'delete_time': video.delete_time}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            video.delete_time = timezone.now()
+            video.save()
+            return Response(data={'delete_time': video.delete_time}, status=status.HTTP_204_NO_CONTENT)

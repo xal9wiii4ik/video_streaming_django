@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='some_secret_key')  # type: ig
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DEBUG', default=1))  # type: ignore
 
-ALLOWED_HOSTS: tp.List[str] = os.environ.get('ALLOWED_HOSTS', default='').split(',')  # type: ignore
+ALLOWED_HOSTS: tp.List[str] = os.environ.get('ALLOWED_HOSTS', default='*').split(',')  # type: ignore
 
 # CORS settings
 CORS_ALLOWED_ORIGINS: tp.List[str] = os.environ.get('CORS_ALLOWED_ORIGINS', default='').split(',')  # type: ignore

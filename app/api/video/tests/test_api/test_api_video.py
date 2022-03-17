@@ -34,7 +34,7 @@ class VideoAPITestCase(APITestCase):
         self.assertEqual(first=status.HTTP_200_OK, second=response.status_code)
         response_data = response.json()
         for data in response_data:
-            del data['upload_date']
+            del data['upload_datetime']
         expected_data = [
             {
                 'id': self.video_1.pk,
@@ -62,7 +62,7 @@ class VideoAPITestCase(APITestCase):
         response = self.client.get(path=url)
         self.assertEqual(first=status.HTTP_200_OK, second=response.status_code)
         response_data = response.json()
-        del response_data['upload_date']
+        del response_data['upload_datetime']
         expected_data = {
             'id': self.video_1.pk,
             'title': 'title_1',

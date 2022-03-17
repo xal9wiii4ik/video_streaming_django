@@ -12,4 +12,4 @@ class VideoModelAdmin(admin.ModelAdmin):
     Display video on admin panel
     """
 
-    list_display = ('pk', 'title', 'upload_date', 'delete_time')
+    list_display = ('pk', 'title', 'upload_datetime', 'delete_time')

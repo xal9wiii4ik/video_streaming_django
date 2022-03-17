@@ -106,6 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Aws settings
 BUCKET_REGION = os.environ.get('BUCKET_REGION', default='test_region')  # type: ignore
 VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET', default='test_bucket')  # type: ignore
+BUCKET_PATH = f'https://s3-{BUCKET_REGION}.amazonaws.com/{VIDEOS_BUCKET}/' + '{}'
+
+BASE_DATETIME_FORMAT = '%Y-%m-%d:%H-%M-%S.%f'
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -122,8 +125,3 @@ USE_TZ = True
 # STATIC FILES
 STATIC_URL = "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-
-# MEDIA FILES
-MEDIA_URL = "/mediafiles/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")

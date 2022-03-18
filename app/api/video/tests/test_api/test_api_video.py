@@ -2,27 +2,14 @@ import json
 
 from rest_framework import status
 from rest_framework.reverse import reverse
-from rest_framework.test import APITestCase
 
-from api.video.models import Video
+from api.utils.setup_tests import SetupAPITestCase
 
 
-class VideoAPITestCase(APITestCase):
+class VideoAPITestCase(SetupAPITestCase):
     """
-    Test Case for Video CRUD
+    Test Cases for Video CRUD
     """
-
-    def setUp(self) -> None:
-        self.video_1 = Video.objects.create(
-            title='title_1',
-            description='description_1',
-            bucket_path='bucket_path_1'
-        )
-        self.video_2 = Video.objects.create(
-            title='title_2',
-            description='description_2',
-            bucket_path='bucket_path_2'
-        )
 
     def test_get_list(self) -> None:
         """

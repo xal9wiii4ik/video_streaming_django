@@ -30,7 +30,7 @@ class SetupAPITestCase(APITestCase):
         json_data = json.dumps(data)
         token_data = self.client.post(path=url, data=json_data, content_type='application/json').data
         self.token_1 = f'Token ' \
-                       f'{token_data["access"]}'
+                       f'{token_data["access_token"]}'
 
         self.user_2 = get_user_model().objects.create(username='user_2',
                                                       password=password,
@@ -43,7 +43,7 @@ class SetupAPITestCase(APITestCase):
         json_data = json.dumps(data)
         token_data = self.client.post(path=url, data=json_data, content_type='application/json').data
         self.token_2 = f'Token ' \
-                       f'{token_data["access"]}'
+                       f'{token_data["access_token"]}'
 
         self.user_3 = get_user_model().objects.create(username='user_3',
                                                       password=password,
@@ -56,7 +56,7 @@ class SetupAPITestCase(APITestCase):
         json_data = json.dumps(data)
         token_data = self.client.post(path=url, data=json_data, content_type='application/json').data
         self.token_3 = f'Token ' \
-                       f'{token_data["access"]}'
+                       f'{token_data["access_token"]}'
 
         # creating videos
         self.video_1 = Video.objects.create(

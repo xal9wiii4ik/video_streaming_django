@@ -29,6 +29,8 @@ INSTALLED_APPS = [
 
     'corsheaders',
 
+    'drf_yasg',
+
     'rest_framework',
 
     'api.video',
@@ -63,6 +65,21 @@ TEMPLATES = [
         },
     },
 ]
+
+# REST FRAMEWORK settings
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PERMISSIONS_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+}
 
 WSGI_APPLICATION = 'base.wsgi.application'
 
@@ -103,21 +120,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# JWT SETTINGS
+ACCESS_TOKEN_EXPIRE_MINUTES: tp.Optional[int] = int(os.environ.get('ACCESS_TOKEN_EXPIRE_MINUTES'))  # type: ignore
+REFRESH_TOKEN_EXPIRE_MINUTES: tp.Optional[int] = int(os.environ.get('REFRESH_TOKEN_EXPIRE_MINUTES'))  # type: ignore
+DEFAULT_ACCESS_TOKEN_EXPIRE_MINUTES = 180
+DEFAULT_REFRESH_TOKEN_EXPIRE_MINUTES = 360
+TOKEN_TYPE: tp.Optional[str] = os.environ.get('TOKEN_TYPE')
+TOKEN_ALGORITHM: tp.Optional[str] = os.environ.get('TOKEN_ALGORITHM')
+
 # SIMPLE JWT SETTINGS
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=600),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=13),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES or DEFAULT_ACCESS_TOKEN_EXPIRE_MINUTES),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES or DEFAULT_REFRESH_TOKEN_EXPIRE_MINUTES),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
 
-    'ALGORITHM': 'HS256',
+    'ALGORITHM': TOKEN_ALGORITHM,
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
 
-    'AUTH_HEADER_TYPES': ('Token',),
+    'AUTH_HEADER_TYPES': (TOKEN_TYPE,),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',

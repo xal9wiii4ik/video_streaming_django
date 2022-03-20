@@ -1,5 +1,6 @@
 import typing as tp
 
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -15,6 +16,7 @@ class RegisterUserApiView(APIView):
     Api View for creating new user
     """
 
+    @swagger_auto_schema(request_body=RegisterUserSerializer)
     def post(self, request: Request, *args: tp.Any, **kwargs: tp.Any) -> Response:
         serializer = RegisterUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

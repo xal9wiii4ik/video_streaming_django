@@ -1,7 +1,6 @@
 import typing as tp
 
 from django.contrib.auth.hashers import make_password
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model, password_validation
 
 from rest_framework import serializers
@@ -24,19 +23,17 @@ class RegisterUserSerializer(serializers.Serializer):
 
     @staticmethod
     def validate_username(username: str) -> str:
-        try:
-            get_user_model().objects.get(username=username)
+        is_exist = get_user_model().objects.filter(username=username).exists()
+        if is_exist:
             raise serializers.ValidationError({'User with this username already exist'})
-        except ObjectDoesNotExist:
-            return username
+        return username
 
     @staticmethod
     def validate_email(email: str) -> str:
-        try:
-            get_user_model().objects.get(email=email)
+        is_exist = get_user_model().objects.filter(email=email).exists()
+        if is_exist:
             raise serializers.ValidationError({'User with this email already exist'})
-        except ObjectDoesNotExist:
-            return email
+        return email
 
     @staticmethod
     def validate_password(password: str) -> str:
@@ -73,6 +70,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data.update({
             'access_token_expire': settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
             'refresh_life_time': settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'],
-            'user_pk': user.pk
+            'user_pk': user.pk,
+            'access_token': data['access'],
+            'refresh_token': data['refresh']
         })
+        # TODO update data in flask application and remove del and rename access and refresh
+        # TODO update refresh token in flask app
+        del data['access']
+        del data['refresh']
         return data

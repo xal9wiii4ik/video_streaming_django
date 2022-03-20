@@ -31,6 +31,10 @@ jobs:
           echo TIME_ZONE=${{ secrets.TIME_ZONE }} >> .env
           echo VIDEOS_BUCKET=${{ secrets.VIDEOS_BUCKET }} >> .env
           echo CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }} >> .env
+          echo ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }} >> .env
+          echo REFRESH_TOKEN_EXPIRE_MINUTES=${{ secrets.REFRESH_TOKEN_EXPIRE_MINUTES }} >> .env
+          echo TOKEN_TYPE=${{ secrets.TOKEN_TYPE }} >> .env
+          echo TOKEN_ALGORITHM=${{ secrets.TOKEN_ALGORITHM }} >> .env
       - name: Build docker
         run: docker-compose -f docker-compose-dev.yml up -d --build
       - name: Test

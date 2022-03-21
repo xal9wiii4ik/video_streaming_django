@@ -19,7 +19,7 @@ from api.auth.serializers import (
     AccountModelSerializer,
     UpdateAccountSerializer,
 )
-from api.auth.services import create_new_user
+from api.auth.services import create_new_user, update_account_data
 
 
 class RegisterUserApiView(APIView):
@@ -74,7 +74,5 @@ class AccountModelViewSet(mixins.ListModelMixin,
         serializer.is_valid(raise_exception=True)
         serializer_data = serializer.data
 
-        # I did not put one one line in services
-        if serializer_data:
-            get_user_model().objects.filter(pk=kwargs['pk']).update(**serializer_data)
+        update_account_data(data=serializer_data, pk=kwargs['pk'])
         return Response(data=request.data, status=status.HTTP_200_OK)

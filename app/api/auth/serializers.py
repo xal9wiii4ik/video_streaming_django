@@ -80,26 +80,6 @@ class AccountModelSerializer(serializers.ModelSerializer):
     Model Serializer for model user
     """
 
-    # @staticmethod
-    # def validate_email(email):
-    #     validate_email(value=email)
-    #     is_exist = get_user_model().objects.filter(email=email).exists()
-    #     if is_exist:
-    #         raise serializers.ValidationError({'User with this email already exist'})
-    #     return email
-    #
-    # @staticmethod
-    # def validate_password(password: str) -> str:
-    #     password_validation.validate_password(password=password)
-    #     return password
-    #
-    # @staticmethod
-    # def validate_username(username: str) -> str:
-    #     is_exist = get_user_model().objects.filter(username=username).exists()
-    #     if is_exist:
-    #         raise serializers.ValidationError({'User with this username already exist'})
-    #     return username
-
     def validate(self, attrs: tp.Dict[str, tp.Any]) -> tp.Dict[str, tp.Any]:
         """
         Validate all fields

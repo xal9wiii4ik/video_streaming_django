@@ -9,6 +9,7 @@ class VideoModelSerializer(serializers.ModelSerializer):
     """
 
     file = serializers.FileField(required=False, write_only=True)
+    username = serializers.CharField(max_length=100, read_only=True)
 
     class Meta:
         model = Video

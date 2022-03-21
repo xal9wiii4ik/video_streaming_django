@@ -1,9 +1,10 @@
 import typing as tp
 
 from django.utils import timezone
+from django.db.models import F
 
 from rest_framework import status
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -20,11 +21,12 @@ class VideoModelViewSet(ModelViewSet):
     Model View set for model video
     """
 
-    queryset = Video.objects.filter(delete_time__isnull=True)
+    queryset = Video.objects.filter(delete_time__isnull=True).annotate(
+        username=F('account__username')
+    )
     serializer_class = VideoModelSerializer
-    parser_classes = (MultiPartParser,)
+    parser_classes = (MultiPartParser, JSONParser)
     permission_classes = (IsOwnerOrReadOnlyVideoPermission,)
-    # TODO add permissions
 
     def perform_create(self, serializer: VideoModelSerializer) -> None:
         # validate file

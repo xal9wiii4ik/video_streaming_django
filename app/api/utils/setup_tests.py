@@ -62,10 +62,12 @@ class SetupAPITestCase(APITestCase):
         self.video_1 = Video.objects.create(
             title='title_1',
             description='description_1',
-            bucket_path='bucket_path_1'
+            bucket_path='bucket_path_1',
+            account=self.user_1
         )
         self.video_2 = Video.objects.create(
             title='title_2',
             description='description_2',
-            bucket_path='bucket_path_2'
+            bucket_path='bucket_path_2',
+            account=self.user_2
         )

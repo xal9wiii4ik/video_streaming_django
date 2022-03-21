@@ -112,3 +112,13 @@ class AccountViewTest(SetupAPITestCase):
         self.assertEqual(self.user_1.first_name, 'Nikita')
         self.assertEqual(self.user_1.email, 'new_email@123.ru')
         self.assertTrue(check_password('new_password_123-a', self.user_1.password))
+
+    def test_delete(self) -> None:
+        """
+        Delete
+        """
+
+        url = reverse('auth:user-detail', args=(self.user_1.pk,))
+        self.client.credentials(HTTP_AUTHORIZATION=self.token_1)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)

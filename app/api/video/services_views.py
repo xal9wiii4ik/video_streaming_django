@@ -6,12 +6,13 @@ from django.utils import timezone
 from base import settings
 
 
-def upload_video_to_aws(file_bytes: bytes, file_content_type: tp.List[str]) -> str:
+def upload_video_to_aws(file_bytes: bytes, file_content_type: tp.List[str], username: str) -> str:
     """
     Upload video to aws
     Args:
         file_bytes: file bytes
-        file_content_type: file content type
+        file_content_type: file content type\
+        username: username
     Return:
         current bucket path
     """
@@ -19,9 +20,8 @@ def upload_video_to_aws(file_bytes: bytes, file_content_type: tp.List[str]) -> s
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(settings.VIDEOS_BUCKET)
 
-    # TODO add username
     file_extension = file_content_type[0].split("/")[-1]
-    file_path = f'username/{timezone.now():{settings.BASE_DATETIME_FORMAT}}.{file_extension}'
+    file_path = f'{username}/{timezone.now():{settings.BASE_DATETIME_FORMAT}}.{file_extension}'
 
     file = bucket.put_object(Key=file_path,
                              Body=file_bytes,

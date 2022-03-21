@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from api.video.models import Video
+from api.video.permissions import IsOwnerOrReadOnlyVideoPermission
 from api.video.serializers import VideoModelSerializer
 from api.video.services_serializers import validate_file
 from api.video.services_views import upload_video_to_aws
@@ -22,6 +23,7 @@ class VideoModelViewSet(ModelViewSet):
     queryset = Video.objects.filter(delete_time__isnull=True)
     serializer_class = VideoModelSerializer
     parser_classes = (MultiPartParser,)
+    permission_classes = (IsOwnerOrReadOnlyVideoPermission,)
     # TODO add permissions
 
     def perform_create(self, serializer: VideoModelSerializer) -> None:
@@ -30,11 +32,12 @@ class VideoModelViewSet(ModelViewSet):
         # upload file to aws bucket
         bucket_path = upload_video_to_aws(
             file_bytes=file_bytes,
-            file_content_type=file_mime
+            file_content_type=file_mime,
+            username=self.request.user.username
         )
         # set bucket path
         serializer.validated_data['bucket_path'] = bucket_path
-        # TODO add user
+        serializer.validated_data['account'] = self.request.user
         serializer.save()
 
     def destroy(self, request: Request, *args: tp.Any, **kwargs: tp.Any) -> Response:

@@ -12,8 +12,8 @@ from rest_framework.viewsets import ModelViewSet
 from api.video.models import Video
 from api.video.permissions import IsOwnerOrReadOnlyVideoPermission
 from api.video.serializers import VideoModelSerializer
-from api.video.services_serializers import validate_file
-from api.video.services_views import upload_video_to_aws
+from api.video.validation import validate_file
+from api.video.services import upload_video_to_aws
 
 
 class VideoModelViewSet(ModelViewSet):

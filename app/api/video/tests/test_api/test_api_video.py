@@ -29,7 +29,8 @@ class VideoAPITestCase(SetupAPITestCase):
                 'description': 'description_1',
                 'bucket_path': 'bucket_path_1',
                 'delete_time': None,
-                'account': self.user_1.pk
+                'account': self.user_1.pk,
+                'username': 'user_1'
             },
             {
                 'id': self.video_2.pk,
@@ -37,7 +38,8 @@ class VideoAPITestCase(SetupAPITestCase):
                 'description': 'description_2',
                 'bucket_path': 'bucket_path_2',
                 'delete_time': None,
-                'account': self.user_2.pk
+                'account': self.user_2.pk,
+                'username': 'user_2'
             }
         ]
         self.assertEqual(first=expected_data, second=response_data)
@@ -58,7 +60,8 @@ class VideoAPITestCase(SetupAPITestCase):
             'description': 'description_1',
             'bucket_path': 'bucket_path_1',
             'delete_time': None,
-            'account': self.user_1.pk
+            'account': self.user_1.pk,
+            'username': 'user_1'
         }
         self.assertEqual(first=expected_data, second=response_data)
 

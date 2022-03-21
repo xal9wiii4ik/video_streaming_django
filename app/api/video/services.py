@@ -11,7 +11,7 @@ def upload_video_to_aws(file_bytes: bytes, file_content_type: tp.List[str], user
     Upload video to aws
     Args:
         file_bytes: file bytes
-        file_content_type: file content type\
+        file_content_type: file content type
         username: username
     Return:
         current bucket path

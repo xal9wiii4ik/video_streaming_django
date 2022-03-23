@@ -1,8 +1,7 @@
 import typing as tp
 
-from django.core.validators import validate_email
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -17,7 +16,7 @@ class RegisterUserSerializer(serializers.Serializer):
     """
 
     username = serializers.CharField(max_length=100, required=True)
-    password = serializers.CharField(max_length=500, required=True)
+    password = serializers.CharField(max_length=100, required=True)
     repeat_password = serializers.CharField(max_length=500, required=True)
     email = serializers.CharField(max_length=100, required=False)
     first_name = serializers.CharField(max_length=100, required=False)
@@ -37,7 +36,7 @@ class RegisterUserSerializer(serializers.Serializer):
 
     def validate(self, attrs: tp.Dict[str, tp.Any]) -> tp.Dict[str, tp.Any]:
         """
-        Validate all fields
+        Last check
         Args:
             attrs: OrderedDict with values
         Raise:
@@ -82,7 +81,7 @@ class AccountModelSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs: tp.Dict[str, tp.Any]) -> tp.Dict[str, tp.Any]:
         """
-        Validate all fields
+        Last check
         Args:
             attrs: OrderedDict with values
         Raise:
@@ -109,7 +108,7 @@ class UpdateAccountSerializer(serializers.Serializer):
     """
 
     username = serializers.CharField(max_length=100, required=False)
-    password = serializers.CharField(max_length=500, required=False)
+    password = serializers.CharField(max_length=100, required=False)
     email = serializers.CharField(max_length=100, required=False)
     first_name = serializers.CharField(max_length=100, required=False)
     last_name = serializers.CharField(max_length=100, required=False)
@@ -128,7 +127,7 @@ class UpdateAccountSerializer(serializers.Serializer):
 
     def validate(self, attrs: tp.Dict[str, tp.Any]) -> tp.Dict[str, tp.Any]:
         """
-        Validate all fields
+        Last check
         Args:
             attrs: OrderedDict with values
         Raise:

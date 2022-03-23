@@ -19,7 +19,7 @@ from api.auth.serializers import (
     AccountModelSerializer,
     UpdateAccountSerializer,
 )
-from api.auth.services import create_new_user, update_account_data
+from api.auth.services import create_new_user, update_account_data, process_request_data
 
 
 class RegisterUserApiView(APIView):
@@ -29,9 +29,7 @@ class RegisterUserApiView(APIView):
 
     @swagger_auto_schema(request_body=RegisterUserSerializer)
     def post(self, request: Request, *args: tp.Any, **kwargs: tp.Any) -> Response:
-        serializer = RegisterUserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer_data = serializer.data
+        serializer_data = process_request_data(serializer_class=RegisterUserSerializer, data=request.data)
         create_new_user(data=serializer_data)
         return Response(data=serializer_data, status=status.HTTP_201_CREATED)
 
@@ -70,9 +68,6 @@ class AccountModelViewSet(mixins.ListModelMixin,
         if request_data.get('email') is not None and request_data.get('email') == request.user.email:
             del request_data['email']
 
-        serializer = UpdateAccountSerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-        serializer_data = serializer.data
-
+        serializer_data = process_request_data(serializer_class=UpdateAccountSerializer, data=request_data)
         update_account_data(data=serializer_data, pk=kwargs['pk'])
         return Response(data=request.data, status=status.HTTP_200_OK)

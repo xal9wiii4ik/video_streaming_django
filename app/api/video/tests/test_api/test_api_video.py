@@ -1,9 +1,11 @@
-import json
+import mock
+
+from django.core.files import File
 
 from rest_framework import status
 from rest_framework.reverse import reverse
 
-from api.utils.setup_tests import SetupAPITestCase
+from api.utils.utils_tests.setup_tests import SetupAPITestCase
 
 
 class VideoAPITestCase(SetupAPITestCase):
@@ -107,6 +109,40 @@ class VideoAPITestCase(SetupAPITestCase):
         self.assertEqual(first=status.HTTP_200_OK, second=response.status_code)
         self.video_1.refresh_from_db()
         self.assertEqual(first='new_title', second=self.video_1.title)
+
+    def test_create(self) -> None:
+        """
+        Test Create
+        """
+
+        url = reverse('video:video-list')
+        with open('api/utils/utils_tests/videoplayback.mp4', 'rb') as f:
+            data = {
+                'title': 'tile',
+                'description': 'description',
+                'file': f
+            }
+            self.client.credentials(HTTP_AUTHORIZATION=self.token_1)
+            response = self.client.post(url, data=data)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_not_valid_file(self) -> None:
+        """
+        Test Create not valid file
+        """
+
+        image_mock = mock.MagicMock(spec=File)
+        image_mock.name = 'image.png'
+
+        url = reverse('video:video-list')
+        data = {
+            'title': 'tile',
+            'description': 'description',
+            'file': image_mock
+        }
+        self.client.credentials(HTTP_AUTHORIZATION=self.token_1)
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.json(), ['File must be of the video type'])
 
     def test_delete(self) -> None:
         """

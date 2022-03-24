@@ -7,14 +7,23 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
 from api.video.models import Video
+import boto3
+
+from moto import mock_s3
+
+from base import settings
 
 
+@mock_s3
 class SetupAPITestCase(APITestCase):
     """ SetUp tests """
 
     def setUp(self) -> None:
-        # creating users and tokens for users
+        # creating stage bucket
+        s3_connection = boto3.resource('s3', region_name='us-east-1')
+        s3_connection.create_bucket(Bucket=settings.VIDEOS_BUCKET)
 
+        # creating users and tokens for users
         password = make_password('password')
         url = reverse('token')
 

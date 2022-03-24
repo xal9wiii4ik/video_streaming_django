@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.hashers import check_password
 from rest_framework.reverse import reverse
 
-from api.utils.setup_tests import SetupAPITestCase
+from api.utils.utils_tests.setup_tests import SetupAPITestCase
 
 
 class AccountViewTest(SetupAPITestCase):

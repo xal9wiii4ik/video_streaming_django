@@ -116,7 +116,7 @@ class VideoAPITestCase(SetupAPITestCase):
         """
 
         url = reverse('video:video-list')
-        with open('api/utils/utils_tests/videoplayback.mp4', 'rb') as f:
+        with open('/usr/src/app/app/api/utils/utils_tests/videoplayback.mp4', 'rb') as f:
             data = {
                 'title': 'tile',
                 'description': 'description',

@@ -1,17 +1,19 @@
 import typing as tp
 
 from django.utils import timezone
+from django.db.models import F
 
 from rest_framework import status
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from api.video.models import Video
+from api.video.permissions import IsOwnerOrReadOnlyVideoPermission
 from api.video.serializers import VideoModelSerializer
-from api.video.services_serializers import validate_file
-from api.video.services_views import upload_video_to_aws
+from api.video.validation import validate_file
+from api.video.services import upload_video_to_aws
 
 
 class VideoModelViewSet(ModelViewSet):
@@ -19,10 +21,12 @@ class VideoModelViewSet(ModelViewSet):
     Model View set for model video
     """
 
-    queryset = Video.objects.filter(delete_time__isnull=True)
+    queryset = Video.objects.filter(delete_time__isnull=True).annotate(
+        username=F('account__username')
+    )
     serializer_class = VideoModelSerializer
-    parser_classes = (MultiPartParser,)
-    # TODO add permissions
+    parser_classes = (MultiPartParser, JSONParser)
+    permission_classes = (IsOwnerOrReadOnlyVideoPermission,)
 
     def perform_create(self, serializer: VideoModelSerializer) -> None:
         # validate file
@@ -30,11 +34,12 @@ class VideoModelViewSet(ModelViewSet):
         # upload file to aws bucket
         bucket_path = upload_video_to_aws(
             file_bytes=file_bytes,
-            file_content_type=file_mime
+            file_content_type=file_mime,
+            username=self.request.user.username
         )
         # set bucket path
         serializer.validated_data['bucket_path'] = bucket_path
-        # TODO add user
+        serializer.validated_data['account'] = self.request.user
         serializer.save()
 
     def destroy(self, request: Request, *args: tp.Any, **kwargs: tp.Any) -> Response:

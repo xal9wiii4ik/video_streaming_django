@@ -36,6 +36,6 @@ jobs:
           echo TOKEN_TYPE=${{ secrets.TOKEN_TYPE }} >> .env
           echo TOKEN_ALGORITHM=${{ secrets.TOKEN_ALGORITHM }} >> .env
       - name: Build docker
-        run: docker-compose -f docker-compose-dev.yml up -d
+        run: docker-compose -f docker-compose-dev.yml up -d --build
       - name: PreCommit Check
         run: docker-compose -f docker-compose-dev.yml exec -T web pre-commit run --show-diff-on-failure --color=always --all-files

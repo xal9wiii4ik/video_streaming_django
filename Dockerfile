@@ -8,15 +8,19 @@ RUN apt-get update
 RUN apt-get install --no-install-recommends -y curl build-essential
 
 COPY . .
+RUN curl https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py > get-poetry
 
-RUN pip3 install --upgrade pip
+RUN python get-poetry
 
-RUN pip3 install -r ./app/requirements.txt
+ENV PATH = "${PATH}:/root/.poetry/bin"
 
-RUN chmod u+x ./app/entrypoint.sh
+RUN poetry config virtualenvs.create false
 
 FROM base as dev
 RUN apt-get install -y git
-RUN pip3 install pre-commit mypy flake8
+RUN poetry install
 
 FROM base as prod
+RUN poetry install --no-dev
+
+RUN chmod u+x ./app/entrypoint.sh

@@ -1,5 +1,6 @@
 import os
 import typing as tp
+from datetime import timedelta
 
 from pathlib import Path
 
@@ -27,6 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'corsheaders',
+
+    'drf_yasg',
 
     'rest_framework',
 
@@ -62,6 +65,20 @@ TEMPLATES = [
         },
     },
 ]
+
+# REST FRAMEWORK settings
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_PERMISSIONS_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+}
 
 WSGI_APPLICATION = 'base.wsgi.application'
 
@@ -102,6 +119,42 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# JWT SETTINGS
+ACCESS_TOKEN_EXPIRE_MINUTES: tp.Optional[int] = int(os.environ.get('ACCESS_TOKEN_EXPIRE_MINUTES'))  # type: ignore
+REFRESH_TOKEN_EXPIRE_MINUTES: tp.Optional[int] = int(os.environ.get('REFRESH_TOKEN_EXPIRE_MINUTES'))  # type: ignore
+DEFAULT_ACCESS_TOKEN_EXPIRE_MINUTES = 180
+DEFAULT_REFRESH_TOKEN_EXPIRE_MINUTES = 360
+TOKEN_TYPE: tp.Optional[str] = os.environ.get('TOKEN_TYPE')
+TOKEN_ALGORITHM: tp.Optional[str] = os.environ.get('TOKEN_ALGORITHM')
+
+# SIMPLE JWT SETTINGS
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES or DEFAULT_ACCESS_TOKEN_EXPIRE_MINUTES),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES or DEFAULT_REFRESH_TOKEN_EXPIRE_MINUTES),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': TOKEN_ALGORITHM,
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+
+    'AUTH_HEADER_TYPES': (TOKEN_TYPE,),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
 
 # Aws settings
 BUCKET_REGION = os.environ.get('BUCKET_REGION', default='test_region')  # type: ignore
